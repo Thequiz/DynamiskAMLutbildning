@@ -183,14 +183,14 @@ def main():
     tema_nummer = 0
     for theme_key, theme_name in THEMES.items():
         tema_nummer += 1
+        
+        # Vänta 90 sekunder mellan varje tema för att undvika rate limits
+        if tema_nummer > 1:
+            print(f"⏳ Väntar 90 sekunder för att undvika rate limits...")
+            time.sleep(90)
+        
         try:
-            # Vänta 90 sekunder mellan varje tema för att undvika rate limits
-            if tema_nummer > 1:
-                print(f"⏳ Väntar 90 sekunder för att undvika rate limits...")
-                time.sleep(90)
-            
             theme_data = generate_theme_data(client, theme_key, theme_name)
-    for theme_key, theme_name in THEMES.items():
             
             # Spara till JSON-fil
             output_file = f"data/{theme_key}.json"
