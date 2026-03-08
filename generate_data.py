@@ -27,7 +27,7 @@ def generate_theme_data(client: anthropic.Anthropic, theme_key: str, theme_name:
     """Genererar data med Webbsök men med den billigaste modellen (Haiku)"""
     
     # Haiku är betydligt billigare än Sonnet för Webbsök
-    MODEL = "claude-3-5-haiku-latest"
+    MODEL = "claude-3-5-haiku-20260210"
     
     print(f"🌐 Startar WEBBSÖK för tema: {theme_name} (Modell: Haiku)")
     
