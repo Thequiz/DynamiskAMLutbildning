@@ -19,7 +19,7 @@ except ImportError:
 
 # Teman att generera innehåll för
 THEMES = {
-    "allmän": "allmän penningtvätt"
+    "kryptovalutor"
 }
 
 def generate_theme_data(client: anthropic.Anthropic, theme_key: str, theme_name: str) -> Dict[str, Any]:
