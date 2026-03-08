@@ -1,0 +1,38 @@
+name: Uppdatera Penningtvättsutbildning
+
+on:
+  schedule:
+    # Kör varje måndag kl 06:00 UTC (07:00 svensk tid)
+    - cron: '0 6 * * 1'
+  workflow_dispatch: # Tillåt manuell körning
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install anthropic
+      
+      - name: Generate training data
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python generate_data.py
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Automatisk uppdatering av utbildningsdata [$(date +'%Y-%m-%d')]" && git push)
