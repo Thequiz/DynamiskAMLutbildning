@@ -65,10 +65,7 @@ Returnera ENDAST JSON med följande struktur:
 
 Returnera minst 3-5 rapporter. ENDAST JSON, ingen annan text."""
         }],
-        tools=[{
-            "type": "web_search_20250305",
-            "name": "web_search"
-        }]
+        
     )
     
     # Extrahera text från svaret
