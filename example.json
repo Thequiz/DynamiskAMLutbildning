@@ -1,0 +1,134 @@
+{
+  "theme": "allmän penningtvätt",
+  "generated_date": "2025-03-08T12:00:00",
+  "reports": [
+    {
+      "title": "Nationell riskbedömning av penningtvätt och finansiering av terrorism 2024",
+      "source": "Finansinspektionen",
+      "url": "https://www.fi.se",
+      "snippet": "En omfattande analys av penningtvättsrisker i Sverige med fokus på nya digitala metoder och gränsöverskridande transaktioner.",
+      "date": "2024",
+      "key_methods": ["Kryptovalutor", "Skalbolag", "Kontanthantering"]
+    },
+    {
+      "title": "FATF Guidance on Digital Assets",
+      "source": "Financial Action Task Force (FATF)",
+      "url": "https://www.fatf-gafi.org",
+      "snippet": "Internationell vägledning för hur länder och verksamhetsutövare ska hantera risker med virtuella tillgångar och leverantörer av tjänster för virtuella tillgångar.",
+      "date": "2024",
+      "key_methods": ["DeFi", "NFTs", "Mixers och tumblers"]
+    }
+  ],
+  "questions": [
+    {
+      "question": "Vad kallas metoden där stora summor delas upp i mindre belopp för att undvika rapporteringskrav?",
+      "options": [
+        "Smurfing eller strukturering",
+        "Layering",
+        "Integration",
+        "Placement"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Smurfing eller strukturering är en vanlig teknik där stora summor delas upp i mindre transaktioner under rapporteringsgränsen för att undvika upptäckt. Detta är en vanlig metod i placementfasen av penningtvätt."
+    },
+    {
+      "question": "Vilken fas i penningtvätt innebär att tillgångarna återförs till den legala ekonomin?",
+      "options": [
+        "Placement",
+        "Layering",
+        "Integration",
+        "Structuring"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Integration är den sista fasen där de tvättade medlen återförs till den legala ekonomin och kan användas öppet utan att väcka misstankar. Exempel inkluderar att köpa fastigheter, lyxvaror eller starta legitima företag."
+    },
+    {
+      "question": "Vilket internationellt organ sätter standarder för bekämpning av penningtvätt?",
+      "options": [
+        "Interpol",
+        "FATF (Financial Action Task Force)",
+        "FN:s säkerhetsråd",
+        "Världsbanken"
+      ],
+      "correctAnswer": 1,
+      "explanation": "FATF är det ledande internationella organet som utvecklar och främjar policies för att bekämpa penningtvätt och finansiering av terrorism. Deras 40 rekommendationer utgör grunden för AML-regelverk världen över."
+    },
+    {
+      "question": "Vad är ett 'skalbolag' i penningtvättssammanhang?",
+      "options": [
+        "Ett företag som säljer skal och skaldjur",
+        "Ett företag utan verklig affärsverksamhet som används för att dölja verkligt ägande",
+        "Ett företag i konkursfas",
+        "Ett företag med mycket få anställda"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Ett skalbolag är ett företag utan substantiell verksamhet som används för att dölja verkligt ägande och kontroll. Det används ofta för att skapa komplexa ägarstrukturer som gör det svårt att spåra penningflöden och identifiera verkliga huvudmän."
+    },
+    {
+      "question": "Vilken av följande är en 'red flag' (varningssignal) för penningtvätt?",
+      "options": [
+        "Kund som gör regelbundna insättningar varje månad",
+        "Kund som gör stora kontantinsättningar strax följt av överföringar utomlands",
+        "Kund som använder internetbank",
+        "Kund som har flera bankkonton"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Stora kontantinsättningar följt av snabba utlandsöverföringar är en klassisk varningssignal. Detta mönster kan tyda på att någon försöker placera kontanter i systemet och sedan snabbt flytta dem utomlands för att dölja ursprunget."
+    },
+    {
+      "question": "Vad innebär 'Know Your Customer' (KYC)?",
+      "options": [
+        "Att känna kundens favoritprodukter",
+        "Att verifiera kundens identitet och förstå deras affärsrelation",
+        "Att erbjuda personlig service",
+        "Att spara kundens kontaktuppgifter"
+      ],
+      "correctAnswer": 1,
+      "explanation": "KYC (Know Your Customer) är processen där finansiella institutioner verifierar kunders identitet, förstår deras affärsverksamhet och bedömer risker. Detta är grundläggande för att upptäcka och förhindra penningtvätt."
+    },
+    {
+      "question": "Vilken roll spelar kryptovalutor i modern penningtvätt?",
+      "options": [
+        "De kan inte användas för penningtvätt",
+        "De erbjuder anonymitet och snabba gränsöverskridande transaktioner",
+        "De är helt transparenta och därför säkra",
+        "De är endast virtuella och har inget verkligt värde"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Kryptovalutor kan erbjuda viss grad av anonymitet (särskilt privacy coins) och möjliggör snabba gränsöverskridande transaktioner utan traditionell bankinfrastruktur. Detta gör dem attraktiva för penningtvätt, även om blockchain-teknologin också kan göra transaktioner spårbara."
+    },
+    {
+      "question": "Vad är 'layering' i penningtvättsprocessen?",
+      "options": [
+        "Första steget där kontanter placeras i banksystemet",
+        "Komplexa transaktioner för att dölja pengarnas ursprung",
+        "Sista steget där pengar återförs till ekonomin",
+        "Att dela upp pengar mellan flera personer"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Layering är den andra fasen där brottsliga pengar genomgår komplexa transaktioner mellan konton, företag och jurisdiktioner för att dölja ursprunget. Detta kan inkludera valutatransaktioner, investeringar och överföringar genom skalbolag."
+    },
+    {
+      "question": "Vilket ansvar har banker enligt penningtvättslagstiftningen?",
+      "options": [
+        "Endast att rapportera misstänkta transaktioner över 100 000 kr",
+        "Att utföra kundkännedom, övervaka transaktioner och rapportera misstänkt verksamhet",
+        "Att neka alla kontanttransaktioner",
+        "Att endast övervaka utländska kunder"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Banker har omfattande skyldigheter enligt AML-lagstiftning inklusive att utföra kundkännedom (KYC), kontinuerligt övervaka transaktioner, rapportera misstänkta transaktioner till FIU och implementera riskbaserade åtgärder. Det finns inget fast beloppsgräns för rapportering."
+    },
+    {
+      "question": "Vad är 'hawala' i penningtvättssammanhang?",
+      "options": [
+        "En typ av kryptovaluta",
+        "Ett informellt värdeöverföringssystem baserat på förtroende",
+        "En penningtvättsmetod genom kasinon",
+        "Ett skalbolag i Mellanöstern"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Hawala är ett traditionellt informellt värdeöverföringssystem som fungerar utanför det formella banksystemet och baseras på förtroende mellan hawala-mäklare. Det kan användas legitimt men även för penningtvätt eftersom det lämnar få eller inga dokumenterade spår."
+    }
+  ]
+}

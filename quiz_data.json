@@ -1,0 +1,31 @@
+{
+  "generated_at": "2025-03-07T12:00:00",
+  "themes": {
+    "kryptovalutor": {
+      "name": "kryptovalutor och digitala tillgångar",
+      "reports": [
+        {
+          "title": "Penningtvätt genom kryptovalutor - Riskanalys 2024",
+          "source": "Finansinspektionen",
+          "url": "https://www.fi.se",
+          "snippet": "Analys av hur kryptovalutor används för penningtvätt i Sverige",
+          "date": "2024",
+          "key_methods": ["Mixers/Tumblers", "Privacy coins", "DeFi-plattformar"]
+        }
+      ],
+      "questions": [
+        {
+          "question": "Vad är det primära syftet med en 'crypto mixer' eller 'tumbler'?",
+          "options": [
+            "Att förbättra transaktionshastigheten",
+            "Att dölja ursprunget och destinationen för kryptovalutatransaktioner",
+            "Att konvertera mellan olika kryptovalutor",
+            "Att minska transaktionsavgifterna"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Crypto mixers och tumblers används specifikt för att dölja transaktionsspår genom att blanda kryptovalutor från flera källor, vilket försvårar spårning av penningtvättsflöden. Detta är en vanlig metod för att tvätta illegala vinster."
+        }
+      ]
+    }
+  }
+}
