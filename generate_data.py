@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Penningtvättsutbildning - Data Generator (Haiku + Webbsök)
-Använder den billigaste modellen (Haiku) för att utföra dyra sökningar.
+Penningtvättsutbildning - Data Generator
+Söker efter aktuella rapporter och genererar quiz-frågor via Anthropic API
 """
 
 import os
@@ -20,33 +20,54 @@ except ImportError:
 
 # Teman att generera innehåll för
 THEMES = {
-    "allmän": "Monero"
+    "allmän": "allmän penningtvätt",
+    "kryptovalutor": "kryptovalutor och digitala tillgångar",
+    "fastigheter": "fastighetsmarknaden",
+    "skalbolag": "skalbolag och komplex ägarstruktur",
+    "banker": "bankernas roll och ansvar i penningtvätt"
 }
 
 def generate_theme_data(client: anthropic.Anthropic, theme_key: str, theme_name: str) -> Dict[str, Any]:
-    """Genererar data med Webbsök men med den billigaste modellen (Haiku)"""
+    """Genererar rapporter och frågor för ett specifikt tema"""
     
-    # Haiku är betydligt billigare än Sonnet för Webbsök
-    MODEL = "claude-3-5-haiku-20260210"
+    print(f"📚 Genererar innehåll för tema: {theme_name}")
     
-    print(f"🌐 Startar WEBBSÖK för tema: {theme_name} (Modell: Haiku)")
-    
-    # Steg 1: Sök efter rapporter på webben
-    # Vi sänker max_tokens till 2000 för att begränsa hur mycket webbinnehåll den läser in
+    # Steg 1: Sök rapporter
+    print("  🔍 Söker efter aktuella rapporter...")
     search_message = client.messages.create(
-        model=MODEL,
-        max_tokens=2000, 
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=4000,
         messages=[{
             "role": "user",
-            "content": f"""Använd web_search för att hitta 3-5 aktuella rapporter (senaste 12 mån) om penningtvätt via "{theme_name}". 
-            Fokusera på FI, FATF och Europol. 
-            
-            Returnera ENDAST ett JSON-objekt med denna struktur:
-            {{
-                "reports": [
-                    {{"title": "...", "source": "...", "url": "...", "snippet": "...", "date": "..."}}
-                ]
-            }}"""
+            "content": f"""Sök efter aktuella, seriösa rapporter om PENNINGTVÄTT med fokus på: "{theme_name}"
+
+Sök rapporter från de senaste 12 månaderna från pålitliga källor som:
+- Finansinspektionen (FI)
+- FATF (Financial Action Task Force)  
+- Europol
+- EBA (European Banking Authority)
+- FIU (Financial Intelligence Units)
+- Andra pålitliga myndigheter och organisationer
+
+Hitta rapporter som specifikt beskriver metoder, modus operandi, och tillvägagångssätt 
+relaterade till "{theme_name}".
+
+Returnera ENDAST JSON med följande struktur:
+{{
+    "theme": "{theme_name}",
+    "reports": [
+        {{
+            "title": "Rapportens titel",
+            "source": "Källa/organisation",
+            "url": "URL till rapporten",
+            "snippet": "Kort beskrivning av rapportens innehåll (2-3 meningar)",
+            "date": "Publiceringsdatum",
+            "key_methods": ["Metod 1", "Metod 2", "Metod 3"]
+        }}
+    ]
+}}
+
+Returnera minst 3-5 rapporter. ENDAST JSON, ingen annan text."""
         }],
         tools=[{
             "type": "web_search_20250305",
@@ -54,44 +75,88 @@ def generate_theme_data(client: anthropic.Anthropic, theme_key: str, theme_name:
         }]
     )
     
-    # Extrahera texten (Haiku kan ibland skicka text i block)
+    # Extrahera text från svaret
     reports_text = ""
     for block in search_message.content:
         if block.type == "text":
             reports_text += block.text
     
-    # Rensa JSON-strängen
+    # Rensa och parse JSON
     reports_text = reports_text.replace("```json", "").replace("```", "").strip()
     
     try:
         reports_data = json.loads(reports_text)
-    except Exception as e:
-        print(f"  ⚠️ JSON-fel vid sökning, använder enkel fallback: {e}")
-        reports_data = {"reports": []}
-
-    # Steg 2: Generera frågor baserat på sökresultaten
-    print(f"  💡 Skapar quiz-frågor baserat på hittad webbdata...")
+    except json.JSONDecodeError as e:
+        print(f"  ⚠️  JSON parse fel, använder fallback data: {e}")
+        reports_data = {
+            "theme": theme_name,
+            "reports": [{
+                "title": f"Penningtvätt genom {theme_name} - Aktuell analys",
+                "source": "Finansinspektionen",
+                "url": "https://www.fi.se",
+                "snippet": f"Analys av penningtvättsrisker relaterade till {theme_name}",
+                "date": "2024",
+                "key_methods": ["Typologi 1", "Typologi 2", "Varningssignaler"]
+            }]
+        }
+    
+    print(f"  ✓ Hittade {len(reports_data.get('reports', []))} rapporter")
+    
+    # Steg 2: Generera quiz-frågor
+    print("  💡 Genererar quiz-frågor...")
     quiz_message = client.messages.create(
-        model=MODEL,
-        max_tokens=2500,
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=4000,
         messages=[{
             "role": "user",
-            "content": f"""Skapa 10 pedagogiska frågor på svenska om "{theme_name}" baserat på denna data:
-            {json.dumps(reports_data)}
-            
-            Returnera som JSON:
-            {{ "questions": [ {{ "question": "...", "options": [], "correctAnswer": 0, "explanation": "..." }} ] }}"""
+            "content": f"""Baserat på följande rapporter om "{theme_name}", skapa 10 utbildningsfrågor på svenska om konkreta metoder och tillvägagångssätt:
+
+{json.dumps(reports_data['reports'], indent=2, ensure_ascii=False)}
+
+Alla frågor MÅSTE vara direkt relaterade till temat "{theme_name}".
+
+Skapa frågor som testar förståelse av:
+- Specifika penningtvättsmetoder inom {theme_name}
+- Varningssignaler (red flags) specifika för {theme_name}
+- Aktuella trender och modus operandi inom {theme_name}
+- Regelverket och ansvar relaterat till {theme_name}
+- Praktiska fall och scenarion från {theme_name}
+
+Returnera ENDAST JSON med följande struktur:
+{{
+    "theme": "{theme_name}",
+    "questions": [
+        {{
+            "question": "Frågetexten här (måste vara relaterad till {theme_name})",
+            "options": ["Alternativ A", "Alternativ B", "Alternativ C", "Alternativ D"],
+            "correctAnswer": 0,
+            "explanation": "Förklaring av det korrekta svaret och varför det är viktigt inom {theme_name} (2-3 meningar)"
+        }}
+    ]
+}}
+
+Alla frågor ska vara på svenska och baserade på verklig information från rapporterna.
+ENDAST JSON, ingen annan text."""
         }]
     )
     
-    quiz_text = quiz_message.content[0].text.replace("```json", "").replace("```", "").strip()
+    # Extrahera quiz data
+    quiz_text = ""
+    for block in quiz_message.content:
+        if block.type == "text":
+            quiz_text += block.text
+    
+    quiz_text = quiz_text.replace("```json", "").replace("```", "").strip()
     
     try:
-        quiz_json = json.loads(quiz_text)
-        questions = quiz_json.get("questions", [])
-    except:
+        quiz_data = json.loads(quiz_text)
+        questions = quiz_data.get("questions", [])
+        print(f"  ✓ Genererade {len(questions)} frågor")
+    except json.JSONDecodeError as e:
+        print(f"  ⚠️  Quiz JSON parse fel: {e}")
         questions = []
-
+    
+    # Kombinera data
     return {
         "theme": theme_name,
         "generated_date": datetime.now().isoformat(),
@@ -100,23 +165,62 @@ def generate_theme_data(client: anthropic.Anthropic, theme_key: str, theme_name:
     }
 
 def main():
+    """Huvudfunktion - genererar data för alla teman"""
+    
+    print("🚀 Penningtvättsutbildning - Data Generator")
+    print("=" * 60)
+    
+    # Hämta API-nyckel från miljövariabel
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
-        print("❌ ANTHROPIC_API_KEY saknas!")
+        print("❌ ANTHROPIC_API_KEY miljövariabel saknas!")
+        print("   Sätt den med: export ANTHROPIC_API_KEY='sk-ant-...'")
         sys.exit(1)
     
+    # Skapa Anthropic client
     client = anthropic.Anthropic(api_key=api_key)
+    
+    # Skapa data mapp
     os.makedirs("data", exist_ok=True)
     
+    # Generera data för varje tema
+    tema_nummer = 0
     for theme_key, theme_name in THEMES.items():
+        tema_nummer += 1
+        
+        # Vänta 60 sekunder mellan varje tema för att undvika rate limits
+        if tema_nummer > 1:
+            print(f"⏳ Väntar 60 sekunder för att undvika rate limits...")
+            time.sleep(60)
+        
         try:
-            data = generate_theme_data(client, theme_key, theme_name)
-            with open(f"data/{theme_key}.json", 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-            print(f"  ✅ Sparad: data/{theme_key}.json\n")
-            time.sleep(5) # Liten paus för att undvika Rate Limits
+            theme_data = generate_theme_data(client, theme_key, theme_name)
+            
+            # Spara till JSON-fil
+            output_file = f"data/{theme_key}.json"
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(theme_data, f, ensure_ascii=False, indent=2)
+            
+            print(f"  💾 Sparad till: {output_file}")
+            print()
+            
         except Exception as e:
-            print(f"  ❌ Fel vid {theme_name}: {e}")
+            print(f"  ❌ Fel vid generering av {theme_name}: {e}")
+            print()
+            continue
+    
+    # Spara senaste uppdateringsdatum
+    update_info = {
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "themes": list(THEMES.keys())
+    }
+    
+    with open("data/last_update.json", 'w', encoding='utf-8') as f:
+        json.dump(update_info, f, ensure_ascii=False, indent=2)
+    
+    print("=" * 60)
+    print("✅ Data generering klar!")
+    print(f"📅 Senast uppdaterad: {update_info['date']}")
 
 if __name__ == "__main__":
     main()
