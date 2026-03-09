@@ -188,10 +188,10 @@ def main():
     for theme_key, theme_name in THEMES.items():
         tema_nummer += 1
         
-        # Vänta 60 sekunder mellan varje tema för att undvika rate limits
+        # Vänta 120 sekunder mellan varje tema för att undvika rate limits
         if tema_nummer > 1:
-            print(f"⏳ Väntar 60 sekunder för att undvika rate limits...")
-            time.sleep(60)
+            print(f"⏳ Väntar 120 sekunder för att undvika rate limits...")
+            time.sleep(120)
         
         try:
             theme_data = generate_theme_data(client, theme_key, theme_name)
