@@ -35,7 +35,7 @@ def generate_theme_data(client: anthropic.Anthropic, theme_key: str, theme_name:
     # Steg 1: Sök rapporter
     print("  🔍 Söker efter aktuella rapporter...")
     search_message = client.messages.create(
-        model="claude-3-5-sonnet-20241022",
+        model="claude-3-5-haiku-20241022",
         max_tokens=4000,
         messages=[{
             "role": "user",
